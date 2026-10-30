@@ -1,0 +1,19 @@
+<!-- index.ejs -->
+<html>
+<head>
+    <!-- Directly using the 'title' variable -->
+    <title><%= title %></title> 
+</head>
+  <body>
+    <form method="POST" action="/new">
+		<h2>Author Information</h2>
+       <label for="messageUser">User: </label>
+       <input id="messageUser" type="text" name="messageUser"/>
+       <label for="messageText">Message: </label>
+       <input id="messageText" type="text" name="messageText"/>
+
+	   <button type="submit">Submit Form</button>
+   </form>
+
+  </body>
+</html>

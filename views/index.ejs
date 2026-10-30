@@ -1,0 +1,17 @@
+<!-- index.ejs -->
+<html>
+<head>
+    <!-- Directly using the 'title' variable -->
+    <title><%= title %></title> 
+</head>
+  <body>
+    <% messages.forEach((message, index) => { %>
+    <h2> <%= message.text %></h2>
+    <p>User: <%= message.user %></p>
+    <p> <%= message.added %> </p>
+    <br>
+    <a href="/message/<%= index %>">Open</a>
+    <% }); %>
+    
+  </body>
+</html>
