@@ -6,8 +6,8 @@
 </head>
   <body>
     <% messages.forEach((message, index) => { %>
-    <h2> <%= message.text %></h2>
-    <p>User: <%= message.user %></p>
+    <h2> <%= message.messagetext%></h2>
+    <p>User: <%= message.messageuser %></p>
     <p> <%= message.added %> </p>
     <br>
     <a href="/message/<%= index %>">Open</a>

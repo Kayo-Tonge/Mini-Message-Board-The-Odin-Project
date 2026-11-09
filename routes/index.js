@@ -1,29 +1,35 @@
 // routes/authorRouter.js
 const { Router } = require("express");
+const db = require("../db/queries");
 
 const indexRouter = Router();
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
 
 
-indexRouter.get("/", (req, res) => {
+indexRouter.get("/", async (req, res) => {
+    const results = await db.getAllMessages();
+    const messages = results.rows || results; 
     res.render("index", { title: "Mini Messageboard", messages: messages });
 });
-indexRouter.get("/new", (req, res) => {
-    res.render("form", { title: "Mini Messageboard", messages: messages });
+
+indexRouter.get("/new", async (req, res) => {
+    try {
+        const results = await db.getAllMessages();
+        const messages = results.rows || results; 
+
+        res.render("form",{ 
+        title: 'Mini Messageboard', 
+        messages: messages 
+        });
+    }
+    catch (err) {
+    console.error(err);
+    res.status(500).send('Database connection error');
+  }
 });
-indexRouter.get("/message/:messageId", (req, res) => {
+indexRouter.get("/message/:messageId", async (req, res) => {
+    const results = await db.getAllMessages();
+    const messages = results.rows || results; 
     const messageId = Number(req.params.messageId)
     const selectedMessage = messages[messageId];
     if (!selectedMessage){
@@ -31,10 +37,11 @@ indexRouter.get("/message/:messageId", (req, res) => {
     }
     res.render("message", {message: selectedMessage});
 });
-indexRouter.post("/new", (req, res) => {
-    const {messageText} = req.body;
-    const {messageUser} = req.body;
-    messages.push({ text: messageText, user: messageUser, added: new Date() });
+
+indexRouter.post("/new", async (req, res) => {
+    const {messageText, messageUser} = req.body;
+    const added = new Date(); // Generate timestamp here
+    await db.insertUsername(messageUser, messageText, added);
     res.redirect("/");
 });
 
